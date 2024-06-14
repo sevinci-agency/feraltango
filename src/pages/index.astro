@@ -1,14 +1,80 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Main from "../layouts/main.astro"
+import NavBar from "../layouts/navbar.astro"
+import Hero from "../sections/hero.astro"
+import LinkButton from "../components/LinkButton.astro"
+import LatestEvents from "../sections/Events.tsx"
+import WeeklySchedule from "../sections/Schedule.tsx"
+import InstagramFeed from "../sections/InstagramFeed.astro"
+import CTA from "../sections/cta.astro"
+import About from "../sections/about.astro"
+import Contact from "../sections/contact.astro"
+import Footer from "../layouts/footer.astro"
+
+let response = await fetch("https://corazon.dance/orion/organizations/11");
+let data = await response.json();
+let school = data;
 ---
-<Main>
-	<div class="min-h-screen bg-gray-900 flex flex-col items-center justify-center">
-		<h1 class="text-5xl text-white font-bold mb-8 animate-pulse">
-			Coming Soon
-		</h1>
-		<p class="text-white text-lg mb-8">
-			We're working hard to bring you something amazing. Stay tuned!
-		</p>
-		<a href="#about" class="text-white hover:text-brand hover:text-white hover:underline">feraltango@gmail.com</a>
+
+<Main>	
+	<NavBar/>
+	<Hero next="#events">
+		<div class="bg-brand invisible"></div>
+		<div slot="cta">
+			<LinkButton url="#courses" theme="brand" type="filled" size='xl'>
+				Class schedule
+			</LinkButton>
+			<LinkButton url="#events" theme="light" type="ghost" size='xl' class="text-white">
+				Find events
+				<Icon name="bi:arrow-right" class="w-5 h-5"/>
+			</LinkButton>
+		</div>
+	</Hero>
+	
+	<div id="events" class="bg-gray-100">
+		<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+			<LatestEvents client:load/>
+		</div>
 	</div>
+	
+	<div id="courses" class="py-10">
+		<!-- <Schedule/>	 -->
+		<WeeklySchedule client:load/>
+	</div>
+
+	<section id="videos" class="py-6">
+        <InstagramFeed />
+    </section>
+
+	<CTA title="Tangomeet"
+		subtitle="In 2016 we partnered with the online tango education giant Tangomeet.com to bring you meticulously structured classes chock-full of useful information. <br/><br/>Click on the link below, explore our collections and gain insight into our world! Our classes can be used as a supplement to your regular tango classes, or as a standalone series for dedicated learners."
+		link={{
+			href: "https://www.tangomeet.com/ivan-terrazas-sara-grdan",
+			text: "Visit Tangomeet",
+		}}
+	/>
+	<section id="about">
+        <About
+            title="About Sara & Ivan"
+            subtitle="Ivan and Sara are dynamic and exciting dancers, with a strong personal style."
+            text={school.bio}
+            picture="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+        />
+    </section>
+
+	<section id="contact">
+        <Contact organization={school}>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2781.059322615056!2d15.939627312437008!3d45.81007031017374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4765d6d01c8f09c1%3A0xb6c9079ab36a2fbb!2sSPECTRA%20MEDIA%20d.o.o.!5e0!3m2!1sen!2shr!4v1714146980792!5m2!1sen!2shr"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </Contact>
+    </section>
+
+	<Footer organization={school}/>
 </Main>
