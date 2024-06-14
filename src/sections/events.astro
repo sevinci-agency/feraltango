@@ -4,7 +4,6 @@ import { Icon } from 'astro-icon/components';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-let orgApiUrl;
 let orgID;
 let orgEventsURL;
 let response;
@@ -12,11 +11,9 @@ let results;
 let events;
 
 if (import.meta.env.MODE === 'development') {
-  	orgApiUrl = import.meta.env.PUBLIC_ORG_API_URL;
 	orgID = import.meta.env.PUBLIC_APP_ORGANIZATION_ID;  
   	orgEventsURL = import.meta.env.PUBLIC_ORG_EVENTS_URL;
 } else {
-  	orgApiUrl = process.env.ORG_API_URL;
   	orgID = process.env.APP_ORGANIZATION_ID;
   	orgEventsURL = process.env.ORG_EVENTS_URL;
 }

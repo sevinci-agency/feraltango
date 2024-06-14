@@ -15,7 +15,6 @@ type PropType = {
     options?: EmblaOptionsType
 }
 
-
 const EmblaCarousel = (props: { slides: any; options: any; }) => {
     const { slides, options } = props
     const [emblaRef, emblaApi] = useEmblaCarousel(options);

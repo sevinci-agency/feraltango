@@ -1,4 +1,3 @@
-import { BsCalendar2Check, BsClock, BsCrosshair, BsPeopleFill, BsPersonCircle } from "react-icons/bs";
 import dayjs from "dayjs";
 import type { Event } from "../types/Event.ts";
  
