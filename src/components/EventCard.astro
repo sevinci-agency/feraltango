@@ -1,0 +1,58 @@
+---
+import daysjs from 'dayjs';
+import { Icon } from 'astro-icon/components';
+const {     
+    event = {
+        name: 'Event name',
+        description: 'Event description',
+        thumbnail: "https://images.unsplash.com/photo-1633114128174-2f8aa49759b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+        organiser_icon: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
+    } 
+} = Astro.props;
+let startDate = daysjs(event.start_date);
+let startTime = daysjs(event.start_time);
+---      
+<!-- Card -->
+<a class="group cursor-pointer flex flex-col h-full border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-neutral/70 dark:hover:border-primary dark:hover:shadow-black/[.4]" href={event.url} target="_blank">
+    <div class="aspect-w-16 aspect-h-11">
+        <img class="w-full object-cover rounded-xl h-64" src={event.thumbnail} alt={event.name}>
+    </div>
+    <div class="my-6">
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:group-hover:text-white">
+            {event.name}
+        </h3>
+        <dl class="mt-2 text-gray-500 dark:text-neutral-400">
+            <div class="flex justify-between items-center">
+                <span>{startDate.format('DD MMM')} @ {startTime.format('HH:mm')}</span>
+
+                
+            </div>
+            <div class="flex gap-x-2 items-center">
+                <span>{event.location_name}</span>  ·  
+                <span>{event.city}</span>
+            </div>
+            <div class="flex gap-x-2 items-center">
+                <div class="capitalize">{event.type}</div> · 
+                <span>{event.styles}</span>
+            </div>
+        </dl>
+    </div>
+    <div class="flex flex-wrap sm:justify-between items-center gap-y-1">
+        <div class="mt-auto flex items-center gap-x-3">
+            <img class="size-8 rounded-full" src={event.organiser_icon} alt="Image Description">
+            <div>
+                <h5 class="text-sm text-neutral-800 dark:text-neutral-200">{event.organiser_name}</h5>
+            </div>
+        </div>
+        <div class="text-right">
+            {
+                event.status === 'possible changes' ?
+                <span class="inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-xs bg-warning text-white dark:bg-success dark:text-white">{event.status}</span> :
+                ''
+            }
+        </div>
+
+    </div>
+
+</a>
+<!-- End Card -->

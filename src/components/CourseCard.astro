@@ -1,0 +1,177 @@
+---
+import daysjs from 'dayjs';
+const { course } = Astro.props;
+import { Icon } from 'astro-icon/components';
+---
+
+<article class="flex flex-col bg-white border shadow-xl hover:shadow-2xl rounded-xl p-4 md:p-5 border-neutral-300">
+    <p class="text-xs font-medium uppercase text-neutral-500">
+        {course.level} {course.level_code}
+    </p>
+    <div class="flex justify-between items-center">
+        <h3 class="text-lg font-bold text-neutral-800">
+        {course.name}
+        </h3>
+        <div>
+            <dt class="sr-only">Status</dt>
+            {
+                course.status === "active" &&
+                <div class="hs-tooltip inline-block">
+                    <button type="button" class="hs-tooltip-toggle py-1 px-1 flex justify-center items-center text-sm rounded-full border border-transparent bg-success-600 text-white hover:bg">
+                        <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-neutral-900 text-white" role="tooltip">
+                            {course.status}
+                        </span>
+                    </button>
+                </div>
+            }
+            {
+                course.status === "soon" &&                                
+                <div class="hs-tooltip inline-block">
+                    <button type="button" class="hs-tooltip-toggle py-1 px-1 flex justify-center items-center text-sm rounded-full border border-transparent bg-warning-600 text-white hover:bg">
+                        <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-neutral-900 text-white" role="tooltip">
+                            {course.status}
+                        </span>
+                    </button>
+                </div>
+            }
+            {
+                course.status === "finished" &&
+                <div class="hs-tooltip inline-block">
+                    <button type="button" class="hs-tooltip-toggle py-1 px-1 flex justify-center items-center text-sm rounded-full border border-transparent bg-error-600 text-white hover:bg">
+                        <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-neutral-900 text-white" role="tooltip">
+                            {course.status}
+                        </span>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <div class="text-neutral-500">
+        <div class="mt-2 flex w-full flex-none gap-x-4 items-center">
+            <dt class="flex-none">
+                <span class="sr-only">Date</span>
+                <Icon name="bi:calendar"/>
+            </dt>
+            <dd class="text-sm leading-6 w-full">
+                <div class="flex justify-between items-center">
+                    <span class="capitalize font-medium">Period</span>
+                    <time datetime="2023-01-31">{daysjs(course.start_date).format("DD MMM YY")} - {daysjs(course.end_date).format("DD MMM YY")}</time>
+                </div>
+                
+            </dd>
+        </div>
+        <div class="mt-2 flex w-full flex-none gap-x-4 items-center">
+            <dt class="flex-none">
+                <span class="sr-only">Schedule</span>
+                <Icon name="bi:clock"/>
+            </dt>
+            <dd class="text-sm leading-6 w-full">
+                {
+                    course.monday && (
+                    <div class="flex justify-between">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Mon {daysjs(course.start_time_mon).format("HH:mm")} - {daysjs(course.end_time_mon).format("HH:mm")}</span>
+                    </div>)
+                }
+                {
+                    course.tuesday && (
+                    <div class="flex justify-between w-full">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Tue {daysjs(course.start_time_tue).format("HH:mm")} - {daysjs(course.end_time_tue).format("HH:mm")}</span>
+                    </div>
+                    ) 
+                } 
+                
+                {
+                    course.wednesday && (
+                    <div class="flex justify-between w-full">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Wed {daysjs(course.start_time_wed).format("HH:mm")} - {daysjs(course.end_time_wed).format("HH:mm")}</span>
+                    </div>
+                    ) 
+                }  
+
+                {
+                    course.thursday && (
+                    <div class="flex justify-between w-full">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Thu {daysjs(course.start_time_thu).format("HH:mm")} - {daysjs(course.end_time_thu).format("HH:mm")}</span>
+                    </div>
+                    ) 
+                }  
+
+                {
+                    course.friday && (
+                    <div class="flex justify-between w-full">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Fri {daysjs(course.start_time_fri).format("HH:mm")} - {daysjs(course.end_time_fri).format("HH:mm")}</span>
+                    </div>
+                    ) 
+                }
+
+                {
+                    course.saturday && (
+                    <div class="flex justify-between w-full">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Sat {daysjs(course.start_time_sat).format("HH:mm")} - {daysjs(course.end_time_sat).format("HH:mm")}</span>
+                    </div>
+                    ) 
+                }
+
+                {
+                    course.sunday && (
+                    <div class="flex justify-between w-full">
+                        <span class="capitalize font-medium">Time</span>
+                        <span>Sun {daysjs(course.start_time_sun).format("HH:mm")} - {daysjs(course.end_time_sun).format("HH:mm")}</span>
+                    </div>
+                    ) 
+                }  
+
+            </dd>
+        </div>
+        <div class="mt-2 flex w-full flex-none gap-x-4 items-center">
+                <dt class="flex-none">
+                    <span class="sr-only">class="sr-only">Focus</span>
+                    <Icon name="bi:crosshair"/>
+                </dt>
+                <dd class="text-sm leading-6 w-full">
+                    <div class="flex justify-between">
+                        <span class="capitalize font-medium">Focus</span>
+                        <span>{course.focus}</span>
+                    </div>
+                </dd>
+            </div>
+        <div class="mt-2 flex w-full flex-none gap-x-4 items-center">
+            <dt class="flex-none">
+                <span class="sr-only">public</span>
+                <Icon name="bi:people-fill"/>
+            </dt>
+            <dd class="text-sm leading-6 w-full">
+                <div class="flex justify-between">
+                    <span class="capitalize font-medium">Public</span>
+                    <span class="capitalize">{course.public}</span>
+                </div>
+            </dd>
+        </div>
+        {
+            course.teachers && <div class="mt-2 flex w-full flex-none gap-x-4 items-center">
+                <dt class="flex-none">
+                    <span class="sr-only">Teacher</span>
+                    <Icon name="bi:person-circle"/>
+                </dt>
+                <dd class="text-sm leading-6 w-full">
+                    <div class="flex justify-between">
+                            <span class="capitalize font-medium">Teacher</span>
+                            <span class="capitalize">{course.teachers}</span>
+                    </div>
+                </dd>
+            </div>
+        }
+
+    </div>
+    <a class="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary hover:text-primary/80 disabled:opacity-50 disabled:pointer-events-none" href={course.url} target="_blank">
+        Learn more
+        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+</article>

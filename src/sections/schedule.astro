@@ -1,0 +1,50 @@
+---
+import CourseCard from "../components/CourseCard.astro";
+
+let orgApiUrl;
+let response;
+let results;
+let courses;
+
+if (import.meta.env.MODE === 'development') {
+  orgApiUrl = import.meta.env.PUBLIC_ORG_API_URL;
+} else {
+  orgApiUrl = process.env.ORG_API_URL;
+}
+
+try {
+	response = await fetch("https://corazon.dance/orion/organizations/11/courses");
+	results = await response.json();
+	console.log('response:', response);
+  	console.log('data:', results);
+    courses = results.data;
+} catch (error) {
+  console.error('Fetch failed:', error);
+  console.log('Fetch failed:', error);
+}
+
+const { 
+  title = 'Schedule',
+  subtitle = "Explore our schedule packed with classes for all levels and interests.",
+} = Astro.props
+
+---
+<section id="courses" class="schedule">
+    <div class="max-w-7xl mx-auto py-10 px-5">   
+        <!-- Title -->
+        <div class="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
+            <h2 class="text-2xl font-bold md:text-4xl md:leading-tight">{title}</h2>
+            <p class="mt-1 text-gray-500">{subtitle}</p>
+        </div>
+        <!-- End Title -->     
+
+        <h2 class="text-2xl font-bold leading-7 mb-4 sm:text-3xl text-neutral-900 dark:text-neutral-100"></h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 mg:grid-cols-3 lg:grid-cols-4">
+            { courses.map((course: { level: unknown; name: unknown; status: unknown; monday: any; start_time_mon: unknown; end_time_mon: unknown; tuesday: any; start_time_tue: unknown; end_time_tue: unknown; wednesday: any; start_time_wed: unknown; end_time_wed: unknown; public:string, focus:string }) => (
+                <CourseCard course={course} />
+            )) }
+        </div>
+    </div>
+</section>
+
+

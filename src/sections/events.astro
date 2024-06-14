@@ -1,0 +1,155 @@
+---
+import EventCard from '../components/EventCard.astro';
+import { Icon } from 'astro-icon/components';
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+let orgApiUrl;
+let orgID;
+let orgEventsURL;
+let response;
+let results;
+let events;
+
+if (import.meta.env.MODE === 'development') {
+  	orgApiUrl = import.meta.env.PUBLIC_ORG_API_URL;
+	orgID = import.meta.env.PUBLIC_APP_ORGANIZATION_ID;  
+  	orgEventsURL = import.meta.env.PUBLIC_ORG_EVENTS_URL;
+} else {
+  	orgApiUrl = process.env.ORG_API_URL;
+  	orgID = process.env.APP_ORGANIZATION_ID;
+  	orgEventsURL = process.env.ORG_EVENTS_URL;
+}
+
+try {
+	response = await fetch(orgEventsURL + orgID + '/all-events');
+	results = await response.json();
+	console.log('response:', response);
+  	console.log('data:', results);  	
+	events = results;
+} catch (error) {
+  	console.error('Fetch failed:', error);
+  	console.log('Fetch failed:', error);
+}
+
+const { 
+	title = 'Events', 
+	subtitle = "Don't missed out on these comming soon events", 
+	link = "", 
+	viewMore = false 
+} = Astro.props
+---
+{
+  events && events.length > 0 ? 
+	<section id="events-carousel" class="py-6">
+
+		<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    
+			<!-- Title -->
+    		<div class="max-w-2xl mx-auto text-center lg:mb-14">
+      			<h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">{title}</h2>
+      			<p class="mt-1 text-neutral-600 dark:text-neutral-400">{subtitle}</p>
+    		</div>
+    		<!-- End Title -->
+    
+			<div x-data="carousel" class="items-center mx-auto">
+				<div x-on:keydown.right="next" x-on:keydown.left="prev" tabindex="0" role="region"
+					aria-labelledby="carousel-label" class="flex justify-between items-center focus:outline-none overflow-auto py-3 px-1 space-x-2">
+
+					<button @click="prev" x-show="canScrollLeft" class="text-2xl z-10">
+						<Icon name="bi:arrow-left" class="p-1 text-2xl -left-3 z-10 text-slate-400 ring-1 ring-slate-400 rounded-full bg-white hover:text-slate-500 hover:ring-slate-500"/>
+					</button>
+
+					<!-- Carousel -->
+					<ul x-ref="slider" tabindex="0" role="listbox" aria-labelledby="carousel-content-label"
+						x-on:scroll="checkScrollPosition"
+						class="flex w-full overflow-x-scroll snap-x snap-mandatory space-x-3 inset-x-0 p-3">
+
+						
+							{
+								events.map((event:{ name: string; start_time: string; end_time: string; location_name: string; city: string; type: string; styles: string; }) => (
+								<li class="snap-start shrink-0 w-64 sm:w-72 md:w-80">
+									<EventCard event={event} />
+								</li>
+								))
+							}
+						
+					</ul>
+
+					<button @click="next" class="group" x-show="canScrollRight">
+						<Icon name="bi:arrow-right" class="p-1 text-2xl -right-3 z-10 text-slate-400 ring-1 ring-slate-400 rounded-full bg-white hover:text-slate-500 hover:ring-slate-500"/>
+					</button>
+				</div>
+			</div>
+
+			{
+				viewMore && (
+					<div class="mt-12 text-center">
+						<a class="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-neutral-200 bg-white text-primary-600 shadow-sm hover:bg-neutral-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-base-900 dark:border-neutral-700 dark:text-primary-500 dark:hover:bg-neutral-800" href="https://corazon.dance/events" target="_blank">
+							View more
+							<svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+						</a>
+					</div>    
+				)
+			}
+		</div>
+	</section> :
+	<div class="text-center my-32 pt-20">
+  		<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+    		<path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+  		</svg>
+  		<h3 class="mt-2 text-sm font-semibold text-gray-900">No events found</h3>
+  		<p class="mt-1 text-sm text-gray-500">
+			Unfortunately, no events are currently available.
+		</p>
+  		<div class="mt-6">
+    	<a href="https://corazon.dance/events" target="_blank" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">      		
+	  		Find events in Corazon
+    	</a>
+  	</div>
+</div>
+}
+
+<script>
+	import Alpine from "alpinejs";
+	window.addEventListener('alpine:init', () => {
+		Alpine.data('carousel', () => ({
+			skip: 1,
+			
+			next() {
+				this.to((current: number, offset: number) => current + (offset * this.skip))
+			},
+			
+			prev() {
+				this.to((current: number, offset: number) => current - (offset * this.skip))
+			},
+
+			to(strategy: { (current: any, offset: any): any; (current: any, offset: any): number; (arg0: number, arg1: number): any; }) {
+				let slider = this.$refs.slider
+				let current = slider.scrollLeft
+				let offset = slider.firstElementChild ? slider.firstElementChild.getBoundingClientRect().width : 0;
+				slider.scrollTo({ left: strategy(current, offset), behavior: 'smooth' })
+			},
+			
+			focusableWhenVisible: {
+				'x-intersect:enter'() {
+					this.$el.removeAttribute('tabindex')
+				},
+				'x-intersect:leave'() {
+					this.$el.setAttribute('tabindex', '-1')
+				},
+			},
+			
+			canScrollLeft: false,
+			
+			canScrollRight: true,
+			
+			checkScrollPosition() {
+				let slider = this.$refs.slider;
+				this.canScrollLeft = slider.scrollLeft > 0;
+				this.canScrollRight = slider.scrollLeft < (slider.scrollWidth - slider.offsetWidth);
+			}
+		}));
+	});
+  </script>
+

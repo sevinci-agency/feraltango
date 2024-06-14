@@ -1,0 +1,118 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<"a"> { 
+    url: string|URL|null;
+    size?: 'xs' | 'sm' | 'md' | 'lg'| 'xl';
+    type?: 'filled' | 'outlined' | 'soft' | 'ghost' |'link';  
+    theme?: 'brand'|'accent'|'neutral'|'info'|'success'|'warning'|'danger'|'light'|'dark';
+    roundness?: 'none'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl'|'3xl'|'full';
+    shadow?: 'none'|'sm'|'base'|'md'|'lg'|'xl'|'2xl'|'inner';
+    classes?: string;
+}
+
+const { 
+    url = '', 
+    size = 'md', 
+    type = 'filled', 
+    theme = 'brand',
+    roundness = 'md',
+    shadow = 'sm',
+    classes = '',
+    ...rest
+} = Astro.props;
+
+ const setSize = (size: string) => {
+     switch (size) {
+        case 'xs':
+            return 'text-xs gap-x-1 px-2 py-1';
+        case 'sm':
+            return 'text-sm gap-x-1.5 px-2 py-1';
+        case 'md':
+            return 'text-sm gap-x-1.5 px-2.5 py-1.5';
+        case 'lg':
+            return 'text-base gap-x-2 px-3 py-2';
+        case 'xl':
+            return 'text-md gap-x-2 px-3.5  py-2.5';
+        default:
+            return 'text-md gap-x-1.5 px-2.5 py-1.5';
+     }
+ }
+ const setRoundness = (roundness: string) => {
+     switch (roundness) {
+        case 'none':
+            return 'rounded-none';
+        case 'xs':
+            return 'rounded-sm';
+        case 'sm':
+            return 'rounded';
+        case 'md':
+            return 'rounded-md'; 
+        case 'lg':
+            return 'rounded-lg';
+        case 'xl':
+            return 'rounded-xl';
+        case '2xl':
+            return 'rounded-2xl';
+        case '3xl':
+            return 'rounded-3xl';
+        case'full':
+            return 'rounded-full';
+        default:
+            return 'rounded-md';
+     }
+ }
+
+const getShadow = (type:string, shadow: string) => {
+    if (type === 'link') {
+        return 'shadow-none';
+    } else {
+        switch (shadow) {
+            case 'none':
+                return 'shadow-none';
+            case 'sm':
+                return 'shadow-sm';
+            case 'base':
+                return 'shadow';
+            case 'md':
+                return 'shadow-md'; 
+            case 'lg':
+                return 'shadow-lg';
+            case 'xl':
+                return 'shadow-xl';
+            case '2xl':
+                return 'shadow-2xl';
+            case 'inner':
+                return 'shadow-inner';
+            default:
+                return 'shadow-md';
+        }        
+    }
+}
+
+const getStyle = (type:string, theme:string) => {
+    switch (type) {
+        case 'filled':
+            return `bg-${theme} text-white hover:bg-${theme}/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-${theme}`;
+        case 'outlined':
+            return `bg-transparent text-${theme} hover:bg-${theme} ring-1 ring-inset ring-${theme} hover:text-white`;
+        case 'soft':
+            return `bg-${theme}/20 text-${theme} hover:bg-${theme}/80 hover:text-white`;
+        case 'ghost':
+            return `bg-transparent text-gray-200 hover:text-${theme}/80 hover:bg-${theme}/20`;
+        case 'link':
+            return `bg-transparent text-${theme} underline hover:text-${theme}/80 px-0 py-0`;
+        default:
+            return `bg-${theme} text-white hover:bg-${theme}/80`;
+    }
+}
+---
+
+<a href={url} class:list={["cursor-pointer inline-flex items-center font-semibold", setSize(size), setRoundness(roundness), getStyle(type,theme), getShadow(type, shadow), classes]}> 
+    <slot/>  
+</a>
+
+
+
+
+

@@ -1,0 +1,82 @@
+---
+import { Icon } from 'astro-icon/components';
+let year = new Date().getFullYear();
+const { organization = {} } = Astro.props;
+---
+<section class="body-font">
+    <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
+        <a href="/" class="text-xl font-black leading-none select-none logo hover:opacity-75 text-neutral-900">{organization.shortname ?? organization.name}<span class="text-brand">.</span></a>
+        <p class="mt-4 text-sm  sm:ml-4 sm:pl-4 sm:border-l sm:border-neutral-400 sm:mt-0 text-neutral-500">
+            { organization.email } - { organization.phone }
+        </p>
+        <span class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start">
+            { organization.facebook && (
+                <a href={organization.facebook} class="text-brand hover:text-brand-hover opacity-9" target="_blank" rel="nofollow">
+                    <span class="sr-only">Facebook</span>
+                    <Icon name="bi:facebook" class="w-5 h-5"/>
+                </a>    
+            )}
+            
+            { organization.instagram && (
+                <a href={organization.instagram} class="text-brand hover:text-brand-hover opacity-9" target="_blank" rel="nofollow">
+                    <span class="sr-only">Instagram</span>
+                    <Icon name="bi:instagram" class="w-5 h-5"/>
+                </a>) 
+            }
+
+            {
+                organization.twitter && (
+                <a href={organization.twitter} class="text-brand hover:text-brand-hover opacity-9" target="_blank" rel="nofollow">
+                    <span class="sr-only">Twitter</span>
+                    <Icon name="bi:twitter-x" class="w-5 h-5"/>
+                </a>
+                )
+            }
+
+            {
+                organization.linkedin && (
+                <a href={organization.linkedin} class="text-brand hover:text-brand-hover opacity-9" target="_blank" rel="nofollow">
+                    <span class="sr-only">Linkedin</span>
+                    <Icon name="bi:linkedin" class="w-5 h-5"/>
+                </a>
+                )
+            }
+
+            {
+                organization.youtube && (
+                <a href={organization.youtube} class="text-brand hover:text-brand-hover opacity-9" target="_blank" rel="nofollow">
+                    <span class="sr-only">Youtube</span>
+                    <Icon name="bi:youtube" class="w-5 h-5"/>
+                </a>
+                )
+            }
+
+            {
+                organization.tiktok && (
+                <a href={organization.tiktok} class="text-brand hover:text-brand-hover opacity-9" target="_blank" rel="nofollow">
+                    <span class="sr-only">Tiktok</span>
+                    <Icon name="bi:tiktok" class="w-5 h-5"/>
+                </a>
+                )
+            }
+        </span>
+    </div>
+    <div class="text-xs leading-5 mb-10 flex justify-center text-neutral-500 dark:text-neutral-400">
+        <div class="inline-flex items-center">
+            &copy; {year} {organization.shortname}
+            <span class="mx-2">|</span>
+            <span class="flex items-center gap-x-2">
+                Made with
+                <a href="https://corazon.dance" target="_blank" class="hover:text-brand-500">
+                    <svg id="corazon-icon" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1898.02 1775.49" fill="currentColor">
+                        <title>Corazon Icon</title>
+                        <path d="M957.84,957.93a3.31,3.31,0,0,1-.88-.68,1.53,1.53,0,0,0,.11.27A1.31,1.31,0,0,0,957.84,957.93Z" transform="translate(-10.99 -72.25)" />
+                        <path d="M1889.64,490.28c-9.26-33.58-43.29-144.65-142.77-246.62a576,576,0,0,0-169.56-120.14c-73.38-34-135.89-43.95-159.33-47.09-13.71-1.83-80.54-10.24-167.71,3.77-39.36,6.32-98.14,16.27-165.22,51.47-56,29.38-91,62.33-123.2,92.85-101-94.38-233.93-152.27-380.17-152.27C266.5,72.25,11,338.89,11,667.81s255.51,595.56,570.69,595.56c0,0,276.67,12.87,390.35-113.89,7.44-7.87,12.62-14.32,14.42-16.6,6.19-7.8,10.41-14.13,11.88-16.37,5-7.65,8.42-13.79,9.58-16,4-7.41,6.6-13.3,7.5-15.39,3.08-7.12,5-12.73,5.64-14.7,1.93-5.82,3.21-10.67,4-13.94a99.25,99.25,0,0,0,2.54-13.08c.23-2,.36-4.93.63-10.74.24-5.21.36-7.81.4-11.46a97.69,97.69,0,0,0-.29-11.64,82.46,82.46,0,0,0-1.5-9.43c-.86-4.22-1.78-7.38-2.12-8.52-1.14-3.82-2.24-6.65-2.64-7.65-1.35-3.4-2.59-5.91-3-6.79-1.51-3-2.85-5.21-3.32-6-1.63-2.64-3-4.55-3.53-5.22-1.7-2.29-3.13-3.92-3.64-4.5-1.75-2-3.19-3.35-3.7-3.83-1.76-1.65-3.19-2.81-3.7-3.21-1.75-1.39-3.16-2.33-3.65-2.65a24.15,24.15,0,0,0-3.56-2.14,59.64,59.64,0,0,0-6.71-2.93c-4-1.09-6-1.45-6-1.45a24.82,24.82,0,0,0-9.65.17,17.13,17.13,0,0,0-7.61,3.26c-3.31,2.66-5.8,7.15-4.66,8.59.83,1,5.1-.19,5.1-.19.41.8-2.43,3.24-4.51,4.44-1.41.81-2.86,1.64-4.7,1.39-1.57-.21-2.59-1.1-3.85-2.19a14.32,14.32,0,0,1-3.19-4.06,18.72,18.72,0,0,1-1.84-4.84,23.78,23.78,0,0,1-.68-6.61,29.16,29.16,0,0,1,.61-5.43,37.69,37.69,0,0,1,1.83-6.19c.16-.42.67-1.71,1.48-3.34.22-.47.9-1.81,1.92-3.49.29-.49,1.15-1.87,2.4-3.59.37-.5,1.42-1.91,2.95-3.65.44-.51,1.72-2,3.53-3.68.53-.51,2-1.95,4.18-3.66.63-.5,2.4-1.91,4.87-3.56.72-.47,2.78-1.83,5.61-3.39.83-.45,3.19-1.73,6.4-3.14.93-.41,3.61-1.57,7.22-2.79,1.06-.36,4.06-1.36,8.09-2.34,1.15-.29,4.51-1.09,9-1.77,1.31-.21,5-.75,9.89-1.07,1.42-.09,5.48-.34,10.81-.22,1.55,0,6,.16,11.72.79,1.69.18,6.46.74,12.62,2,1.86.37,7,1.42,13.48,3.32,1.81.53,7.14,2.12,14.29,4.88A206.08,206.08,0,0,1,1107.87,919c8.39,4.9,14.29,9.15,15.72,10.19a208.69,208.69,0,0,1,18,14.92c3.71,3.32,9.45,8.48,16.52,15.86,2.21,2.31,8.67,9.13,16.38,18.74,2.24,2.8,8.56,10.77,16,21.85,2.16,3.24,8.25,12.47,15.21,25.16,2.11,3.84,7.79,14.37,14.09,28.69,6.16,14,10,24.91,12.54,32.4,2.85,8.25,6.65,19.36,10.37,34.07a398.13,398.13,0,0,1,8.08,42.48c3.09,20.85,4.31,37.17,4.78,44.36.42,6.29,1.5,24.54,1,48.49-.15,7-.71,26.79-3.54,52.59-.9,8.25-3.38,29.4-8.81,56.62-4.89,24.57-9.9,42.62-14.9,60.47-6.07,21.69-10.51,37.56-17.86,57.53-9.78,26.53-18.88,44.5-33.75,73.84-16.45,32.45-30.88,57.17-38.59,70.06-10.68,17.85-24.35,40.59-44.28,68.27-20.33,28.23-23.21,28.32-63.41,77.53-49.92,61.11-61.32,67.7-71.05,74l.94.58c219.19-143.66,526-352.1,783.52-727.56,37-54,108.62-162.69,142.82-319.83C1903.58,727,1925.48,620.32,1889.64,490.28Z"
+                            transform="translate(-10.99 -72.25)" />
+                    </svg>
+                </a>
+            </span>
+        </div>
+    </div>
+</section>
+ 

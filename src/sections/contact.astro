@@ -1,0 +1,68 @@
+---
+import { Icon } from 'astro-icon/components';
+const { 
+	title = "Contact us",
+	subtitle = "Got something on your mind? Whether you have questions, ideas, or just want to say hello, we're all ears. Don't hesitate to reach out and let your voice be heard. Drop us a line and let's connect!",
+	organization = {} 
+} = Astro.props;
+---
+
+<section class="relative isolate">
+	<div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
+    	<div class="relative px-6 pb-20 pt-24 sm:pt-32 lg:static lg:px-8 lg:py-48">
+        	<div class="mx-auto max-w-xl lg:mx-0 lg:max-w-lg">
+          		<div class="absolute inset-y-0 left-0 -z-10 w-full overflow-hidden ring-1 ring-gray-200/30 lg:w-1/2">
+          		</div>				
+          		<h2 class="text-3xl font-bold tracking-tight text-gray-900">{title}</h2>
+          		<p class="mt-6 text-lg leading-8 text-neutral-500">{subtitle}</p>
+          		<dl class="mt-10 space-y-4 text-base leading-7 text-neutral-500">
+					{
+						organization.city && (
+						<div class="flex gap-x-4 items-top">
+              				<dt class="flex-none">
+                				<span class="sr-only">Address</span>                			
+								<Icon name="heroicons:building-office-2" class="h-6 w-6"/>
+              				</dt>
+              				<dd>{organization.address}<br>
+								{
+									organization.address_info && <span class="block">{organization.address_info}</span>
+								}								
+								{organization.city}, {organization.zip} {organization.country}<br>
+							</dd>
+            			</div>
+						)
+					}
+					{
+						organization.phone && (
+							<div class="flex gap-x-4 items-center">
+								<dt class="flex-none">
+									<span class="sr-only">Telephone</span>
+									<Icon name="heroicons:phone" class="h-6 w-6"/>
+								</dt>
+								<dd>
+									<a class="hover:text-gray-900" href={ "tel:" + organization.phone}>{organization.phone}</a>
+								</dd>
+							</div>
+						)
+					}
+
+						{
+							organization.email && (
+								<div class="flex gap-x-4 items-center">
+									<dt class="flex-none">
+										<span class="sr-only">Email</span>
+										<Icon name="heroicons:envelope" class="h-6 w-6"/>
+									</dt>
+									<dd><a class="hover:text-gray-900" href={"mailto:" + organization.email}>{organization.email}</a></dd>
+								</div>
+							)	
+						}
+        		</dl>
+        	</div>
+      	</div>
+    	<main>
+			<slot/>        	
+      	</main>
+	</div>
+</section>
+  
