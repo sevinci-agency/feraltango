@@ -10,7 +10,7 @@ export interface Event {
     start_time: Date | null;
     end_time: Date | null;
 
-    thumbnail: string | null | undefined;
+    thumbnail: URL;
     type: string;
     location_id: number|null;
 

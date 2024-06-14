@@ -14,7 +14,7 @@ const EventCard = ({ event }: EventCardProps) => (
     
 	<a href={event.url?.toString()} target="_blank" className="group cursor-pointer flex flex-col h-full border border-slate-200 hover:border-brand hover:shadow-lg transition-all duration-300 rounded-xl p-5 mx-2 bg-white">
         <div className="aspect-w-16 aspect-h-11">
-            <img className="w-full object-cover rounded-xl h-64" src={event.thumbnail} alt={event.name}/>
+            <img className="w-full object-cover rounded-xl h-64" src={event.thumbnail.toString()} alt={event.name}/>
         </div>
         <div className="my-6">
             <h3 className="text-xl font-semibold text-gray-800 group-hover:text-brand">

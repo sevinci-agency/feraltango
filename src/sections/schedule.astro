@@ -1,16 +1,9 @@
 ---
 import CourseCard from "../components/CourseCard.astro";
 
-let orgApiUrl;
 let response;
 let results;
 let courses;
-
-if (import.meta.env.MODE === 'development') {
-  orgApiUrl = import.meta.env.PUBLIC_ORG_API_URL;
-} else {
-  orgApiUrl = process.env.ORG_API_URL;
-}
 
 try {
 	response = await fetch("https://corazon.dance/orion/organizations/11/courses");

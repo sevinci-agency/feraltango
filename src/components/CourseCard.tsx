@@ -6,10 +6,6 @@ interface CourseCardProps {
     course: Course;
 }
 
-// const formatDate = (date: Date | null): string => date ? date.toLocaleDateString() : 'N/A';
-// const formatTime = (time: Date | null): string => time ? time.toLocaleTimeString() : 'N/A';
-const formatURL = (url: URL | null): string => url ? url.href : 'N/A';
-
 const CourseCard = ({ course }: CourseCardProps) => (
 	<article className="flex flex-col bg-white border shadow hover:shadow-2xl rounded-xl p-4 md:p-5 border-neutral-300">
     	<p className="text-xs font-medium uppercase text-neutral-500">
